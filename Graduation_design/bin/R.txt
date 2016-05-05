@@ -481,13 +481,13 @@ int id action_context_bar 0x7f09001d
 int id action_menu_divider 0x7f090002
 int id action_menu_presenter 0x7f090003
 int id action_mode_close_button 0x7f090024
-int id action_settings 0x7f090054
+int id action_settings 0x7f090056
 int id activity_chooser_view_content 0x7f090025
 int id always 0x7f09000f
 int id beginning 0x7f090016
 int id btn_back 0x7f09003b
 int id btn_start 0x7f090052
-int id chart 0x7f090053
+int id chart 0x7f090055
 int id checkbox 0x7f09002c
 int id collapseActionView 0x7f090010
 int id dialog 0x7f090014
@@ -540,6 +540,7 @@ int id title 0x7f09002a
 int id top_action_bar 0x7f090020
 int id tv_actionbar_title 0x7f09003c
 int id tv_all_value 0x7f090046
+int id tv_comprehensive 0x7f090053
 int id tv_comprehensive_value 0x7f09004c
 int id tv_date_day 0x7f090044
 int id tv_date_month 0x7f090045
@@ -551,6 +552,7 @@ int id tv_pm_value 0x7f09004b
 int id tv_temperature 0x7f090047
 int id tv_temperature_value 0x7f09004d
 int id tv_time 0x7f09003e
+int id tv_wind 0x7f090054
 int id tv_wind_value 0x7f09004f
 int id up 0x7f090021
 int id useLogo 0x7f09000e
