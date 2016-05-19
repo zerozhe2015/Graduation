@@ -1,0 +1,189 @@
+package com.example.graduation_design.ui;
+
+import java.io.IOException;
+import java.io.PrintStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
+
+import com.example.graduation_design.R;
+import com.example.graduation_design.db.UserNumberHelper;
+
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.ContentValues;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.Window;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+
+	private TextView tv_pm_value;
+	private TextView tv_comprehensive_value;
+	private TextView tv_temperature_value;
+	private TextView tv_humidity_value;
+	private TextView tv_wind_value;
+	private ImageView iv_test1;
+	private LinearLayout ll_history;
+	private LinearLayout ll_part1;
+
+	private Socket socket;
+	private PrintStream output;
+
+	/* 服务器地址 */
+	private final String SERVER_HOST_IP = "192.168.1.2";
+
+	/* 服务器端口 */
+	private final int SERVER_HOST_PORT = 9400;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		setContentView(R.layout.activity_main);
+
+		// 初始化View控件
+		init();
+
+		// 获取实时数据接口，实时展示数据，并进行存储到数据库中
+		initData();
+
+	}
+
+	private void initClientSocket() {
+		try {
+			/* 连接服务器 */
+			socket = new Socket(SERVER_HOST_IP, SERVER_HOST_PORT);
+
+			/* 获取输出流 */
+			output = new PrintStream(socket.getOutputStream(), true, "utf-8");
+
+		} catch (UnknownHostException e) {
+			handleException(e, "unknown host exception: " + e.toString());
+		} catch (IOException e) {
+			handleException(e, "io exception: " + e.toString());
+		}
+	}
+
+	public void handleException(Exception e, String prefix) {
+		e.printStackTrace();
+		String result = prefix + e.toString();
+		
+		System.out.println("获取数据"+result);
+	}
+
+	public void closeSocket() {
+		try {
+			output.close();
+			socket.close();
+		} catch (IOException e) {
+			handleException(e, "close exception: ");
+		}
+	}
+
+	/**
+	 * 获取实时数据接口，实时展示数据，并进行存储到数据库中
+	 */
+	private void initData() {
+		iv_test1.setOnClickListener(new OnClickListener() {
+
+			@SuppressLint("SimpleDateFormat")
+			@SuppressWarnings("deprecation")
+			@Override
+			public void onClick(View v) {
+				
+				initClientSocket();
+				// 点击检测拉取相应的数据
+				int pm = (int) (Math.random() * 100);
+				int comprehensive = (int) (Math.random() * 100);
+				int temperature = (int) (Math.random() * 100);
+				int humidity = (int) (Math.random() * 100);
+				int wind1 = (int) (Math.random() * 10);
+				int wind2 = (int) (Math.random() * 10);
+
+				if (comprehensive > 0 && comprehensive < 33) {
+					ll_part1.setBackgroundResource(R.drawable.bg1);
+					tv_comprehensive_value.setText(comprehensive + "");
+					tv_comprehensive_value.setTextColor(MainActivity.this.getResources().getColor(R.color.newgreen));
+				} else if (comprehensive >= 34 && comprehensive <= 66) {
+					ll_part1.setBackgroundResource(R.drawable.bg2);
+					tv_comprehensive_value.setText(comprehensive + "");
+					tv_comprehensive_value.setTextColor(MainActivity.this.getResources().getColor(R.color.newblue));
+				} else {
+					ll_part1.setBackgroundResource(R.drawable.bg3);
+					tv_comprehensive_value.setText(comprehensive + "");
+					tv_comprehensive_value.setTextColor(MainActivity.this.getResources().getColor(R.color.newyellow));
+				}
+
+				tv_pm_value.setText("PM:" + pm);
+
+				tv_temperature_value.setText(temperature + "℃");
+
+				tv_humidity_value.setText(humidity + "%");
+
+				if (wind1 > wind2) {
+					tv_wind_value.setText(wind2 + "-" + wind1 + "级");
+				} else if (wind1 < wind2) {
+					tv_wind_value.setText(wind1 + "-" + wind2 + "级");
+				} else {
+					tv_wind_value.setText(wind1 + "级");
+				}
+
+				SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+				String date = sDateFormat.format(new java.util.Date());
+
+				UserNumberHelper userNumberHelper = new UserNumberHelper(getApplicationContext());
+				SQLiteDatabase db = userNumberHelper.getWritableDatabase();
+
+				ContentValues contentValues = new ContentValues();
+				contentValues.put("pm", pm + "");
+				contentValues.put("comprehensive", comprehensive + "");
+				contentValues.put("temperature", temperature + "");
+				contentValues.put("humidity", humidity + "");
+				contentValues.put("wind1", wind1 + "");
+				contentValues.put("wind2", wind2 + "");
+				contentValues.put("time", date);
+				db.insert("alldata", null, contentValues);
+				db.close();
+
+			}
+		});
+	}
+
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		super.onBackPressed();
+	}
+
+	/**
+	 * 初始化View控件
+	 */
+	private void init() {
+		tv_pm_value = (TextView) findViewById(R.id.tv_pm_value);
+		tv_comprehensive_value = (TextView) findViewById(R.id.tv_comprehensive_value);
+		tv_temperature_value = (TextView) findViewById(R.id.tv_temperature_value);
+		tv_humidity_value = (TextView) findViewById(R.id.tv_humidity_value);
+		tv_wind_value = (TextView) findViewById(R.id.tv_wind_value);
+		iv_test1 = (ImageView) findViewById(R.id.iv_test1);
+		ll_history = (LinearLayout) findViewById(R.id.ll_history);
+		ll_part1 = (LinearLayout) findViewById(R.id.ll_part1);
+
+		ll_history.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
+
+				startActivity(intent);
+			}
+		});
+	}
+
+}

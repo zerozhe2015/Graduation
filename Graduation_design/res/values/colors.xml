@@ -12,6 +12,8 @@
     <color name="newgreen">#00d254</color>
     <color name="newblue">#3b9aff</color>
     <color name="newyellow">#f1c512</color>
+    <color name="newred">#fa4f4f</color>
+    <color name="newblack">#10000000</color>
 
     <!-- 常用颜色值 -->
     <color name="zero16">#3C4F5E</color>

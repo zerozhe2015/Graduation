@@ -28,6 +28,11 @@ import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.view.LineChartView;
 
+/**
+ * @author zero
+ *
+ *         详情界面，包括详情数据和当时的波形图
+ */
 public class DetailActivity extends ActionBarActivity {
 
 	private ImageView mRightButton;
@@ -39,7 +44,7 @@ public class DetailActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_wave_display);
-
+		// getIntent方法获取从上个界面传过来的数据
 		String pm = getIntent().getStringExtra("pm");
 		String comprehensive = getIntent().getStringExtra("comprehensive");
 		String temperature = getIntent().getStringExtra("temperature");
@@ -47,12 +52,16 @@ public class DetailActivity extends ActionBarActivity {
 		String wind1 = getIntent().getStringExtra("wind1");
 		String wind2 = getIntent().getStringExtra("wind2");
 		String time = getIntent().getStringExtra("time");
-		
+		// 将风级的string字符串转换成int型
 		int wind11 = Integer.valueOf(wind1).intValue();
 		int wind22 = Integer.valueOf(wind2).intValue();
 
+		// 初始化actionbar
 		initActionBar();
 
+		// 初始化view控件
+		
+		TextView tv_pingjia = (TextView) findViewById(R.id.tv_pingjia);
 		TextView tv_comprehensive = (TextView) findViewById(R.id.tv_comprehensive);
 		TextView tv_time = (TextView) findViewById(R.id.tv_time);
 		TextView tv_temperature = (TextView) findViewById(R.id.tv_temperature);
@@ -60,19 +69,36 @@ public class DetailActivity extends ActionBarActivity {
 		TextView tv_wind = (TextView) findViewById(R.id.tv_wind);
 		TextView tv_pm = (TextView) findViewById(R.id.tv_pm);
 
-		tv_comprehensive.setText("综合指数：" + comprehensive);
+		// view控件的动态赋值
+		int comprehensive1 = Integer.valueOf(comprehensive).intValue();
+		if (comprehensive1 > 79 && comprehensive1 < 101) {
+			tv_comprehensive.setText("综合指数：" + comprehensive + "  优");
+			tv_pingjia.setText("当前环境的指数很不错，处于优秀等级，很安全，适于生存。");
+		} else if (comprehensive1 >= 65 && comprehensive1 <= 80) {
+			tv_comprehensive.setText("综合指数：" + comprehensive + "  良");
+			tv_pingjia.setText("当前环境的指数很正常，处于良好等级，比较安全，可以放心。");
+		} else if (comprehensive1 >= 50 && comprehensive1 <= 64) {
+			tv_comprehensive.setText("综合指数：" + comprehensive + "  合格");
+			tv_pingjia.setText("当前环境的指数刚及格，处于合格等级，目前安全，需要注意。");
+		} else {
+			tv_comprehensive.setText("综合指数：" + comprehensive + "  差");
+			tv_pingjia.setText("当前环境的指数很低，处于危险等级，请灰常注意哦。");
+		}
+
 		tv_time.setText(time);
 		tv_temperature.setText("温度：" + temperature);
 		tv_humidity.setText("湿度：" + humidity);
 		if (wind11 > wind22) {
-			tv_wind.setText("风向："+wind2 + "-" + wind1 + "级");
+			tv_wind.setText("风向：" + wind2 + "-" + wind1 + "级");
 		} else if (wind11 < wind22) {
-			tv_wind.setText("风向："+wind1 + "-" + wind2 + "级");
+			tv_wind.setText("风向：" + wind1 + "-" + wind2 + "级");
 		} else {
-			tv_wind.setText("风向："+wind1 + "级");
+			tv_wind.setText("风向：" + wind1 + "级");
 		}
-		
-		tv_pm.setText("PM："+pm);
+
+		tv_pm.setText("PM：" + pm);
+
+		// 下面就是波形图，hellochart这个jar包就是第三方框架
 
 		LineChartView chart = (LineChartView) findViewById(R.id.chart);
 
@@ -129,7 +155,7 @@ public class DetailActivity extends ActionBarActivity {
 	}
 
 	/**
-	 * 初始化actionbar
+	 * 初始化ActionBar
 	 */
 	private void initActionBar() {
 		mActionBar = getSupportActionBar();
@@ -155,13 +181,6 @@ public class DetailActivity extends ActionBarActivity {
 			}
 			LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 			mActionBar.setCustomView(view, params);
-			// View spinner =
-			// mActionBar.getCustomView().findViewById(R.id.spinner);
-			// if (haveSpinner()) {
-			// spinner.setVisibility(View.VISIBLE);
-			// } else {
-			// spinner.setVisibility(View.GONE);
-			// }
 		} else {
 			mActionBar.setTitle("详情");
 			// 显示HOME建

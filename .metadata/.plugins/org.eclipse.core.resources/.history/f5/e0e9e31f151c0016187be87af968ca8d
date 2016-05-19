@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/beij2"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:text="环境状态远程监控"
+        android:textColor="@color/white"
+        android:textSize="34sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="8dp" >
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/zhanghao" />
+
+            <EditText
+                android:id="@+id/et_zhanghao"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="请输入账号"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@color/white" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="8dp" >
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/mima" />
+
+            <EditText
+                android:id="@+id/et_mima"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="请输入密码"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@color/white" />
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="8dp" >
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/mima" />
+
+            <EditText
+                android:id="@+id/et_mima2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="请输入密码"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@color/white" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/bt_login"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@color/white"
+        android:text="登录"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/tv_zhuce"
+        android:layout_marginBottom="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="还没账号？立即注册"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+
+</LinearLayout>

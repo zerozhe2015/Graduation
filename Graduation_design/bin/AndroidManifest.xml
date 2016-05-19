@@ -4,6 +4,8 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    
     <uses-sdk
         android:minSdkVersion="11"
         android:targetSdkVersion="21" />
@@ -28,6 +30,8 @@
             android:theme="@android:style/Theme.Translucent" />
         <activity android:name="com.example.graduation_design.ui.HistoryActivity" />
         <activity android:name="com.example.graduation_design.ui.DetailActivity" />
+        <activity android:name="com.example.graduation_design.ui.LoginActivity" />
+        <activity android:name="com.example.graduation_design.ui.ZhuceActivity" />
     </application>
 
 </manifest>

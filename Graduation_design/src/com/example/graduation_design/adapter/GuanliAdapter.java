@@ -3,15 +3,15 @@ package com.example.graduation_design.adapter;
 import java.util.ArrayList;
 
 import com.example.graduation_design.R;
-import com.example.graduation_design.R.id;
-import com.example.graduation_design.R.layout;
 import com.example.graduation_design.bean.Alldata;
 import com.example.graduation_design.db.UserNumberHelper;
 import com.example.graduation_design.ui.DetailActivity;
+import com.example.graduation_design.ui.MainActivity;
 import com.example.graduation_design.widget.MySwipeLayout;
 import com.example.graduation_design.widget.SwipeLayout;
 import com.example.graduation_design.widget.SwipeLayout.OnSwipeListener;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -21,36 +21,60 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+/**
+ * @author zero
+ *
+ *         自定义adapter适配器
+ */
 public class GuanliAdapter extends BasicAdapter<Alldata> {
 
 	private Context context;
-	// private final UMSocialService mController =
-	// UMServiceFactory.getUMSocialService("com.umeng.share");
 
+	// GuanliAdapter的构造参数
 	public GuanliAdapter(ArrayList<Alldata> list, Context context) {
 		super(list);
 		this.context = context;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.example.graduation_design.adapter.BasicAdapter#getView(int,
+	 * android.view.View, android.view.ViewGroup)
+	 */
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
+		// 复用convertView，优化性能，不至于每次都要初始化整个view
 		if (convertView == null) {
 			convertView = View.inflate(context, R.layout.activity_item_detail3, null);
 		}
 		AlldataHolder holder = AlldataHolder.getHolder(convertView);
 		final Alldata alldata = list.get(position);
-		
-		holder.tv_all_value.setText(alldata.getComprehensive());
-		holder.tv_pm.setText("PM："+alldata.getPm());
-		holder.tv_humidity.setText("湿度："+alldata.getHumidity()+"%");
-		holder.tv_temperature.setText("温度："+alldata.getTemperature());
-		holder.tv_date_month.setText(alldata.getTime().substring(5, 7)+"月");
+
+		// 动态给你view空间赋值
+		/**
+		 * 定义综合值区间80-100为健康绿色（优）；区间在65-80为深海蓝色（良）；区间在50- 65为枯叶黄（合格）；
+		 * 区间在50以下为红色（差）
+		 */
+		int comprehensive = Integer.valueOf(alldata.getComprehensive()).intValue();
+		if (comprehensive > 79 && comprehensive < 101) {
+			holder.tv_all_value.setText(alldata.getComprehensive() + "  优");
+		} else if (comprehensive >= 65 && comprehensive <= 80) {
+			holder.tv_all_value.setText(alldata.getComprehensive() + "  良");
+		} else if (comprehensive >= 50 && comprehensive <= 64) {
+			holder.tv_all_value.setText(alldata.getComprehensive() + "  合格");
+		} else {
+			holder.tv_all_value.setText(alldata.getComprehensive() + "  差");
+		}
+
+		holder.tv_pm.setText("PM：" + alldata.getPm());
+		holder.tv_humidity.setText("湿度：" + alldata.getHumidity() + "%");
+		holder.tv_temperature.setText("温度：" + alldata.getTemperature());
+		holder.tv_date_month.setText(alldata.getTime().substring(5, 7) + "月");
 		holder.tv_date_day.setText(alldata.getTime().substring(8, 10));
-		
 
+		// item的点击事件，点击后将该item的数据跳转到详情页面并将数据也一并传过去
 		holder.msl.getFrontView().setOnClickListener(new OnClickListener() {
-
-		
 
 			private String pm;
 			private String comprehensive;
@@ -62,6 +86,7 @@ public class GuanliAdapter extends BasicAdapter<Alldata> {
 
 			@Override
 			public void onClick(View v) {
+				// 遍历集合对象，获取该item的数据值
 				for (Alldata alldata : list) {
 
 					pm = list.get(position).getPm();
@@ -72,8 +97,9 @@ public class GuanliAdapter extends BasicAdapter<Alldata> {
 					wind2 = list.get(position).getWind2();
 					time = list.get(position).getTime();
 				}
-
+				// 用Intent对象跳转页面（跳转到DetailActivity界面）
 				Intent intent = new Intent(context, DetailActivity.class);
+				// 并将该条item数据也传过去
 				intent.putExtra("pm", pm);
 				intent.putExtra("comprehensive", comprehensive);
 				intent.putExtra("temperature", temperature);
@@ -83,21 +109,25 @@ public class GuanliAdapter extends BasicAdapter<Alldata> {
 				intent.putExtra("time", time);
 
 				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
+				// 开始新的activity
 				context.startActivity(intent);
+				((Activity) context).overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
 			}
 		});
-
+		// 侧滑删除按钮的点击事件
 		holder.tv_delete.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-
+				// 创建SQLiteOpenHelper对象
 				UserNumberHelper helper = new UserNumberHelper(context);
+				// 通过内容提供者对象调用其读写数据库的方法
 				SQLiteDatabase db = helper.getWritableDatabase();
+				// 调用数据库的删除数据方法 ，删除该item时间段的整条数据
 				db.delete("alldata", "time = ?", new String[] { alldata.getTime() });
+				// 删除该位置的数据集合的信息
 				list.remove(position);
-
+				// 刷新整个listview数据
 				GuanliAdapter.this.notifyDataSetChanged();
 
 			}
@@ -106,6 +136,11 @@ public class GuanliAdapter extends BasicAdapter<Alldata> {
 		return convertView;
 	}
 
+	/**
+	 * @author zero
+	 *
+	 *         viewholder 属于初始化view控件的一种优化方法
+	 */
 	static class AlldataHolder {
 		TextView tv_date_day, tv_date_month, tv_all_value, tv_delete, tv_temperature, tv_humidity, tv_pm;
 		MySwipeLayout msl;
@@ -138,6 +173,11 @@ public class GuanliAdapter extends BasicAdapter<Alldata> {
 
 	private ArrayList<SwipeLayout> openedItems = new ArrayList<SwipeLayout>();
 
+	/**
+	 * @author zero
+	 * 
+	 *         侧滑删除的监听事件 实现侧滑监听的接口
+	 */
 	class MySwipeListener implements OnSwipeListener {
 
 		@Override

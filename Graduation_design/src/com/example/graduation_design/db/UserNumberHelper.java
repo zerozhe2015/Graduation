@@ -49,6 +49,12 @@ public class UserNumberHelper extends SQLiteOpenHelper {
 				+ "time varchar(20)"
 				+ ");");
 		
+		//创建用户表
+		db.execSQL("create table user("
+				+ "zhanghao varchar(20),"
+				+ "mima varchar(20)"
+				+ ");");
+		
 		
 	
 		

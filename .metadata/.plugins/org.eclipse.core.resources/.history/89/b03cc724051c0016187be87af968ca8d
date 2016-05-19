@@ -1,0 +1,19 @@
+package com.example.graduation_design.ui;
+
+import com.example.graduation_design.R;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.Window;
+
+public class LoginActivity extends Activity {
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		// requestWindow..这行代码是为了不让它显示android默认的actionbar（title）
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		// 这行代码就是关联到该activity对应的ui的xml文件
+		setContentView(R.layout.activity_main);
+	}
+}

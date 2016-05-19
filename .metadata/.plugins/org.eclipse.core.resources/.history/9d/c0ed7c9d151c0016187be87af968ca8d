@@ -1,0 +1,65 @@
+package com.example.graduation_design.ui;
+
+import com.example.graduation_design.R;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+public class ZhuceActivity extends Activity {
+	private EditText et_zhanghao;
+	private EditText et_mima;
+	private Button bt_zhuce;
+	private TextView tv_zhuce;
+	private EditText et_mima2;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		// requestWindow..这行代码是为了不让它显示android默认的actionbar（title）
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		// 这行代码就是关联到该activity对应的ui的xml文件
+		setContentView(R.layout.activity_zhuce);
+
+		initView();
+
+		initData();
+	}
+
+	private void initData() {
+		bt_zhuce.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				String zhanghao = et_zhanghao.getText().toString();
+				String mima = et_mima.getText().toString();
+
+			}
+		});
+
+		tv_zhuce.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				onBackPressed();
+			}
+
+		});
+
+	}
+
+	private void initView() {
+		et_zhanghao = (EditText) findViewById(R.id.et_zhanghao);
+		et_mima = (EditText) findViewById(R.id.et_mima);
+		et_mima2 = (EditText) findViewById(R.id.et_mima2);
+		bt_zhuce = (Button) findViewById(R.id.bt_zhuce);
+		tv_zhuce = (TextView) findViewById(R.id.tv_zhuce);
+
+	}
+}

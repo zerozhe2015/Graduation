@@ -1,0 +1,196 @@
+package com.example.graduation_design.adapter;
+
+import java.util.ArrayList;
+
+import com.example.graduation_design.R;
+import com.example.graduation_design.bean.Alldata;
+import com.example.graduation_design.db.UserNumberHelper;
+import com.example.graduation_design.ui.DetailActivity;
+import com.example.graduation_design.widget.MySwipeLayout;
+import com.example.graduation_design.widget.SwipeLayout;
+import com.example.graduation_design.widget.SwipeLayout.OnSwipeListener;
+
+import android.content.Context;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+/**
+ * @author zero
+ *
+ *         自定义adapter适配器
+ */
+public class GuanliAdapter extends BasicAdapter<Alldata> {
+
+	private Context context;
+
+	// GuanliAdapter的构造参数
+	public GuanliAdapter(ArrayList<Alldata> list, Context context) {
+		super(list);
+		this.context = context;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.example.graduation_design.adapter.BasicAdapter#getView(int,
+	 * android.view.View, android.view.ViewGroup)
+	 */
+	@Override
+	public View getView(final int position, View convertView, ViewGroup parent) {
+		// 复用convertView，优化性能，不至于每次都要初始化整个view
+		if (convertView == null) {
+			convertView = View.inflate(context, R.layout.activity_item_detail3, null);
+		}
+		AlldataHolder holder = AlldataHolder.getHolder(convertView);
+		final Alldata alldata = list.get(position);
+
+		// 动态给你view空间赋值
+		holder.tv_all_value.setText(alldata.getComprehensive());
+		holder.tv_pm.setText("PM：" + alldata.getPm());
+		holder.tv_humidity.setText("湿度：" + alldata.getHumidity() + "%");
+		holder.tv_temperature.setText("温度：" + alldata.getTemperature());
+		holder.tv_date_month.setText(alldata.getTime().substring(5, 7) + "月");
+		holder.tv_date_day.setText(alldata.getTime().substring(8, 10));
+
+		// item的点击事件，点击后将该item的数据跳转到详情页面并将数据也一并传过去
+		holder.msl.getFrontView().setOnClickListener(new OnClickListener() {
+
+			private String pm;
+			private String comprehensive;
+			private String temperature;
+			private String humidity;
+			private String wind1;
+			private String wind2;
+			private String time;
+
+			@Override
+			public void onClick(View v) {
+				// 遍历集合对象，获取该item的数据值
+				for (Alldata alldata : list) {
+
+					pm = list.get(position).getPm();
+					comprehensive = list.get(position).getComprehensive();
+					temperature = list.get(position).getTemperature();
+					humidity = list.get(position).getHumidity();
+					wind1 = list.get(position).getWind1();
+					wind2 = list.get(position).getWind2();
+					time = list.get(position).getTime();
+				}
+				// 用Intent对象跳转页面（跳转到DetailActivity界面）
+				Intent intent = new Intent(context, DetailActivity.class);
+				// 并将该条item数据也传过去
+				intent.putExtra("pm", pm);
+				intent.putExtra("comprehensive", comprehensive);
+				intent.putExtra("temperature", temperature);
+				intent.putExtra("humidity", humidity);
+				intent.putExtra("wind1", wind1);
+				intent.putExtra("wind2", wind2);
+				intent.putExtra("time", time);
+
+				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				// 开始新的activity
+				context.startActivity(intent);
+			}
+		});
+		// 侧滑删除按钮的点击事件
+		holder.tv_delete.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// 创建SQLiteOpenHelper对象
+				UserNumberHelper helper = new UserNumberHelper(context);
+				// 通过内容提供者对象调用其读写数据库的方法
+				SQLiteDatabase db = helper.getWritableDatabase();
+				// 调用数据库的删除数据方法 ，删除该item时间段的整条数据
+				db.delete("alldata", "time = ?", new String[] { alldata.getTime() });
+				// 删除该位置的数据集合的信息
+				list.remove(position);
+				// 刷新整个listview数据
+				GuanliAdapter.this.notifyDataSetChanged();
+
+			}
+		});
+
+		return convertView;
+	}
+
+	/**
+	 * @author zero
+	 *
+	 *         viewholder 属于初始化view控件的一种优化方法
+	 */
+	static class AlldataHolder {
+		TextView tv_date_day, tv_date_month, tv_all_value, tv_delete, tv_temperature, tv_humidity, tv_pm;
+		MySwipeLayout msl;
+		LinearLayout ll_item;
+
+		public AlldataHolder(View convertView) {
+			msl = (MySwipeLayout) convertView.findViewById(R.id.msl);
+			tv_date_day = (TextView) convertView.findViewById(R.id.tv_date_day);
+			tv_date_month = (TextView) convertView.findViewById(R.id.tv_date_month);
+			tv_all_value = (TextView) convertView.findViewById(R.id.tv_all_value);
+			tv_delete = (TextView) convertView.findViewById(R.id.tv_delete);
+
+			tv_temperature = (TextView) convertView.findViewById(R.id.tv_temperature);
+			tv_humidity = (TextView) convertView.findViewById(R.id.tv_humidity);
+			tv_pm = (TextView) convertView.findViewById(R.id.tv_pm);
+
+			ll_item = (LinearLayout) convertView.findViewById(R.id.ll_item);
+		}
+
+		public static AlldataHolder getHolder(View convertView) {
+			AlldataHolder holder = (AlldataHolder) convertView.getTag();
+			if (holder == null) {
+				holder = new AlldataHolder(convertView);
+				convertView.setTag(holder);
+			}
+			return holder;
+		}
+
+	}
+
+	private ArrayList<SwipeLayout> openedItems = new ArrayList<SwipeLayout>();
+
+	/**
+	 * @author zero
+	 * 
+	 *         侧滑删除的监听事件 实现侧滑监听的接口
+	 */
+	class MySwipeListener implements OnSwipeListener {
+
+		@Override
+		public void onStartOpen(SwipeLayout layout) {
+			closeAllItem();
+
+		}
+
+		@Override
+		public void onStartClose(SwipeLayout layout) {
+
+		}
+
+		@Override
+		public void onOpen(SwipeLayout layout) {
+			openedItems.add(layout);
+
+		}
+
+		@Override
+		public void onClose(SwipeLayout layout) {
+			openedItems.remove(layout);
+		}
+	}
+
+	public void closeAllItem() {
+		for (int i = 0; i < openedItems.size(); i++) {
+			openedItems.get(i).close();
+		}
+		openedItems.clear();
+	}
+
+}

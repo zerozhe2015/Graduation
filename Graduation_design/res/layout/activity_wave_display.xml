@@ -10,7 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="0.5dp"
         android:background="@color/white"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:padding="10dp" >
 
         <TextView
             android:id="@+id/tv_comprehensive"
@@ -43,8 +44,9 @@
             android:id="@+id/tv_temperature"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
             android:layout_weight="1"
-            android:padding="15dp"
+            android:padding="17dp"
             android:text="气温：23度"
             android:textColor="@color/zero16"
             android:textSize="15sp" />
@@ -54,7 +56,7 @@
             android:layout_width="1dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="15dp"
+            android:padding="17dp"
             android:text="湿度：34%"
             android:textColor="@color/zero16"
             android:textSize="15sp" />
@@ -71,8 +73,9 @@
             android:id="@+id/tv_wind"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
             android:layout_weight="1"
-            android:padding="15dp"
+            android:padding="17dp"
             android:text="风向：东南 4-5级"
             android:textColor="@color/zero16"
             android:textSize="15sp" />
@@ -82,8 +85,40 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="15dp"
+            android:padding="17dp"
             android:text="PM：35良"
+            android:textColor="@color/zero16"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0.5dp"
+        android:background="@color/white"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:paddingLeft="17dp"
+            android:paddingTop="17dp"
+            android:paddingBottom="17dp"
+            android:text="评价："
+            android:textColor="@color/zero16"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/tv_pingjia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:lineSpacingMultiplier="1.5"
+            android:paddingLeft="10dp"
+            android:paddingTop="17dp"
+            android:paddingBottom="17dp"
+            android:paddingRight="17dp"
+            android:text="当前环境的指数很正常，处于优秀等级，很安全，可以放心。"
             android:textColor="@color/zero16"
             android:textSize="15sp" />
     </LinearLayout>
@@ -104,13 +139,13 @@
             android:id="@+id/chart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_margin="10dp"
             android:background="@color/white" />
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="40dp"
         android:background="@color/white" />
 
 </LinearLayout>

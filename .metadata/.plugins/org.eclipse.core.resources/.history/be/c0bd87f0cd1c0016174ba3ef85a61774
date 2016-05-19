@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#e5e5e5"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0.5dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:padding="10dp" >
+
+        <TextView
+            android:id="@+id/tv_comprehensive"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="20dp"
+            android:text="综合指数：98良"
+            android:textColor="@color/actionbar_background"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="2016-05-06"
+            android:textColor="@color/gray"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0.5dp"
+        android:background="@color/white"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/tv_temperature"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
+            android:padding="17dp"
+            android:text="气温：23度"
+            android:textColor="@color/zero16"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_humidity"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="17dp"
+            android:text="湿度：34%"
+            android:textColor="@color/zero16"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0.5dp"
+        android:background="@color/white"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/tv_wind"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
+            android:padding="17dp"
+            android:text="风向：东南 4-5级"
+            android:textColor="@color/zero16"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_pm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="17dp"
+            android:text="PM：35良"
+            android:textColor="@color/zero16"
+            android:textSize="15sp" />
+    </LinearLayout>
+    
+     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0.5dp"
+        android:background="@color/white"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/tv_wind"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
+            android:padding="17dp"
+            android:text="风向：东南 4-5级"
+            android:textColor="@color/zero16"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_pm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="17dp"
+            android:text="PM：35良"
+            android:textColor="@color/zero16"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@color/white" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/white"
+        android:orientation="vertical" >
+
+        <lecho.lib.hellocharts.view.LineChartView
+            android:id="@+id/chart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@color/white" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/white" />
+
+</LinearLayout>
